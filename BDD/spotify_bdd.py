@@ -56,6 +56,3 @@ class Spotify_Tracks():
                           'track_name' :  track['name'].replace("\'", "\\'"),
                           'track_number' : track['track_number']
                         })
-
-    
-            

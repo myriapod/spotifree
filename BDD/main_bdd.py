@@ -34,5 +34,6 @@ print("Spotify data collected.")
 print("Creating the mariadb databases")
 spotifree = BDD(spotify_data=spotify_data)
 spotifree.creation_bdd() # creation de la bdd ok
-spotifree.connexion_user("user", "password") # creation de l'user et des privilèges ok
+# spotifree.connexion_user("user", "password") 
+# problème : "Can't find any matching row in the user table"
 

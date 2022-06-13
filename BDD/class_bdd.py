@@ -96,7 +96,6 @@ class BDD():
         # les utilisateurs n'ont pas accès à la base de donnée des users
         
         self.cur.execute("FLUSH PRIVILEGES")
-        
         self.deconnexion()
         
     
