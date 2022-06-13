@@ -1,10 +1,4 @@
-######### [ SPOTIFREE ]
-
-Proposer un equivalent a spotify.
-
-
-
-[ UTILISATEUR ]
+<h2>[ UTILISATEUR ]</h2>
 
 interfaces -> CLI, .cgi, tkinter
 
@@ -24,7 +18,7 @@ La page d'acceuil est sobre, on lui propose 3 choix:
 
 
 
-[ Chercher une musique ]
+<h3>[ Chercher une musique ]</h3>
 
 l'user peut chercher une musique avec un mot clé qui peut etre dans le nom de la musique, le groupe ou l'album.
 
@@ -36,7 +30,7 @@ Ou il peut l'ajouter a une de ses playlists
 
 
 
-[ Playlists ]
+<h3>[ Playlists ]</h3>
 
 L'user peut avoir plusieurs Playlists qui contiennent des musiques.
 
@@ -48,7 +42,7 @@ il peut ecouter les musiques d'une playlist (aléatoire, de haut en bas, more re
 
 
 
-[ Spotifriends ]
+<h3>[ Spotifriends ]</h3>
 
 Un user peut avoir des amis, qui sont d'autres user de spotifree.
 
@@ -61,7 +55,7 @@ Il peut envoyer des messages a ses amis et leur donner les droits pour lire une 
 
 
 
-[ SUITE ]
+<h2>[ SUITE ]</h2>
 
 connexion automatique
 
@@ -71,11 +65,11 @@ gestion des fichiers localement
 
 
 
-Proposer un plan d'attaque et d'architecture.
+<b>Proposer un plan d'attaque et d'architecture.</b>
 
 
 
-OBLIGATOIRE:
+<h2>OBLIGATOIRE:</h2>
 
 -Serveur SQL
 
