@@ -54,5 +54,7 @@ class Spotify_Tracks():
                           'artist_name' : track['artists'][0]['name'].replace("\'", "\\'"), 
                           'album_name' : album_name.replace("\'", "\\'"),
                           'track_name' :  track['name'].replace("\'", "\\'"),
-                          'track_number' : track['track_number']
+                          'track_number' : track['track_number'],
+                          'spotify_link' : track['artists'][0]['external_urls']['spotify']
                         })
+            

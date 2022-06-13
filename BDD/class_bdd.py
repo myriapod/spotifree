@@ -43,16 +43,17 @@ class BDD():
                         artist_name TEXT,
                         album_name TEXT,
                         track_name TEXT,
-                        track_number INT
+                        track_number INT,
+                        spotify_link TEXT
                         )''')
         print(" > Created the table spotify.")
         
         # ajouter les données à la bdd spotify
         print(" > Filling the spotify table...")
         for track in self.spotify_data:
-            self.cur.execute(f''' INSERT INTO spotifree.spotify (track_id, artist_name, album_name, track_name, track_number)
+            self.cur.execute(f''' INSERT INTO spotifree.spotify (track_id, artist_name, album_name, track_name, track_number, spotify_link)
                          VALUES ({track['track_id']}, '{track['artist_name']}', '{track['album_name']}',
-                                '{track['track_name']}', {track['track_number']})
+                                '{track['track_name']}', {track['track_number']}, '{track['spotify_link']}')
                          ''')
         print(LINE_UP, end=LINE_CLEAR)
         print(" > Done filling the spotify table.")
@@ -90,9 +91,10 @@ class BDD():
         self.cur.execute("FLUSH PRIVILEGES")
         
         # permissions particulières : https://mariadb.com/kb/en/grant/#table-privileges
+        self.cur.execute(f"GRANT USAGE ON spotifree.* TO '{user}'@'localhost'")
         self.cur.execute(f"GRANT SELECT ON spotifree.spotify TO '{user}'@'localhost'")
-        self.cur.execute(f"GRANT DELETE, INSERT ON spotifree.amis TO '{user}'@'localhost'")
-        self.cur.execute(f"GRANT DELETE, INSERT ON spotifree.playlists TO '{user}'@'localhost'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.amis TO '{user}'@'localhost'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.playlists TO '{user}'@'localhost'")
         # les utilisateurs n'ont pas accès à la base de donnée des users
         
         self.cur.execute("FLUSH PRIVILEGES")
