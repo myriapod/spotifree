@@ -39,12 +39,14 @@ class Spotify_Albums():
         
 
 class Spotify_Tracks():
-    def __init__(self, album_id, album_name, data):
+    def __init__(self, album_id, album_name, data, index):
         self.results = sp.album_tracks(album_id=album_id, limit=20) # à partir de l'id de l'album, on peut afficher les 20 premières chansons dedans
         
         for track in self.results['items']:
+            index.append(index[-1]+1) # un peu bizzare mais ça permet de donner un track_id unique
             # on ajoute directement à la liste de dictionnaire des chansons chaque chanson de l'album
-            data.append({'artist_name' : track['artists'][0]['name'],
+            data.append({'track_id' : index[-1],
+                          'artist_name' : track['artists'][0]['name'],
                           'album_name' : album_name,
                           'track_name' :  track['name'],
                           'track_number' : track['track_number']
@@ -62,6 +64,7 @@ list_famous_singers = ['Rihanna', 'Drake', 'Coldplay', 'Eminem', 'Maroon 5', 'Ed
 
 with open('BDD/spotify_bdd.json', 'w') as f:
     
+    index = [0,1]
     data = []
     for artist in list_famous_singers:
         
@@ -70,10 +73,10 @@ with open('BDD/spotify_bdd.json', 'w') as f:
         album = Spotify_Albums(artist.artist_ID)
         
         for i in range(len(album.album_ids)):
-            tracks = Spotify_Tracks(album.album_ids[i], album.album_names[i], data)
+            tracks = Spotify_Tracks(album.album_ids[i], album.album_names[i], data, index)
+            
     
     # on met la liste de dictionnaire dans un fichier json
     json.dump(data, f)
     
-            
             
