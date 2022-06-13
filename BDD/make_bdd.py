@@ -1,0 +1,1 @@
+# creation de la bdd pour un utilisateur en lui donnant des identifiants mariadb

@@ -1,0 +1,1 @@
+# classe bdd pour traiter les données entrantes et sortantes entre la bdd et le corescript
