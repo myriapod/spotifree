@@ -6,17 +6,24 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
+from requests.exceptions import ReadTimeout # pour gérer les erreurs de spopipy
 
 def connection_spotify():
     # credentials du projet spotifree
     return spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id="2bc3eddc577f4e4496d29334479f1780",
-                                                           client_secret="174417f6ba92480789f1d88734a9c3e4"))
+                                                           client_secret="174417f6ba92480789f1d88734a9c3e4"),
+                           requests_timeout=10, retries=10) # timeout et retries pour éviter l'erreur timed out
 
 
 class Spotify_Artist():
     def __init__(self, artist):
         sp = connection_spotify()
-        self.results = sp.search(q=artist, limit=20, type="artist") # on cherche les 20 premiers résultats qui correspondent au nom de l'artiste
+        try:
+            self.results = sp.search(q=artist, limit=20, type="artist") # on cherche les 20 premiers résultats qui correspondent au nom de l'artiste
+        except ReadTimeout:
+            print("Spotify timed out... trying again...")
+            self.results = sp.search(q=artist, limit=20, type="artist")
+            
         items = self.results["artists"]["items"]
         if len(items) != 0:
             d = items[0]
@@ -27,7 +34,12 @@ class Spotify_Artist():
 class Spotify_Albums():
     def __init__(self, artist_id):
         sp = connection_spotify()
-        self.results = sp.artist_albums(artist_id=artist_id, limit=50) # à partir de l'id de l'artiste on peut afficher ses 50 premiers albums
+        try:
+            self.results = sp.artist_albums(artist_id=artist_id, limit=50) # à partir de l'id de l'artiste on peut afficher ses 50 premiers albums
+        except ReadTimeout:
+            print("Spotify timed out... trying again...")
+            self.results = sp.artist_albums(artist_id=artist_id, limit=50)
+            
         self.album_ids = []
         self.album_names = []
         self.release_date = []
@@ -44,7 +56,12 @@ class Spotify_Albums():
 class Spotify_Tracks():
     def __init__(self, album_id, album_name, data, index):
         sp = connection_spotify()
-        self.results = sp.album_tracks(album_id=album_id, limit=20) # à partir de l'id de l'album, on peut afficher les 20 premières chansons dedans
+        try:
+            self.results = sp.album_tracks(album_id=album_id, limit=20) # à partir de l'id de l'album, on peut afficher les 20 premières chansons dedans
+        except ReadTimeout:
+            print("Spotify timed out... trying again...")
+            self.results = sp.album_tracks(album_id=album_id, limit=20)
+
         
         for track in self.results['items']:
             index.append(index[-1]+1) # un peu bizzare mais ça permet de donner un track_id unique

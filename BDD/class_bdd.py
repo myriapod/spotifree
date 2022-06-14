@@ -84,17 +84,23 @@ class BDD():
         
         self.deconnexion()
         
-    def connexion_user(self, user, password):
+    def creation_user(self, user, password):
         self.connection_root()
         self.cur.execute(f"CREATE USER IF NOT EXISTS '{user}' IDENTIFIED BY '{password}'")
         
         self.cur.execute("FLUSH PRIVILEGES")
         
+        # self.cur.execute(f'select user, host from mysql.user')
+        # results = self.cur.fetchall()
+        # for r in results:
+        #    print(r)
+        
         # permissions particulières : https://mariadb.com/kb/en/grant/#table-privileges
-        self.cur.execute(f"GRANT USAGE ON spotifree.* TO '{user}'@'localhost'")
-        self.cur.execute(f"GRANT SELECT ON spotifree.spotify TO '{user}'@'localhost'")
-        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.amis TO '{user}'@'localhost'")
-        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.playlists TO '{user}'@'localhost'")
+        # les users ne son't pas dans l'hote localhost mais dans l'hote %
+        self.cur.execute(f"GRANT USAGE ON spotifree.* TO '{user}'@'%'")
+        self.cur.execute(f"GRANT SELECT ON spotifree.spotify TO '{user}'@'%'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.amis TO '{user}'@'%'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.playlists TO '{user}'@'%'")
         # les utilisateurs n'ont pas accès à la base de donnée des users
         
         self.cur.execute("FLUSH PRIVILEGES")
