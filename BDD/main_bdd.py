@@ -1,6 +1,6 @@
-from class_bdd import BDD
+from classes import BDD, Spotify_Artist, Spotify_Albums, Spotify_Tracks
 import json
-from spotify_bdd import Spotify_Artist, Spotify_Albums, Spotify_Tracks
+
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
@@ -59,7 +59,7 @@ def bdd():
 
 ###################  MAIN  #########################
 
-# spotify_donnees()
+spotify_donnees()
 
 # si le fichier BDD/spotify_bdd.json existe déjà, on peut juste lancer la fonction bdd pour créer la bdd sql
-# bdd()
+bdd()
