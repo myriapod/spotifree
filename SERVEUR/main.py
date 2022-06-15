@@ -70,7 +70,8 @@ def menu(bdd):
 
 def main():
     # start mariadb
-    os.system("sudo systemctl restart mariadb")
+    # os.system("sudo systemctl restart mariadb") 
+    # demande le mdp sudo, pas top
 
     user, password = connection()
     spotifree = serveur_BDD(user, password)

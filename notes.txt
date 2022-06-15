@@ -1,5 +1,7 @@
 # Telecharger de la musique à partir d'un lien spotify:
 ------------------------------------------------------------------------------------------------
+pip install spotify-downloader
+
 import os
 
 try:
