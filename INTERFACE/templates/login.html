@@ -1,28 +1,34 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-    %}
-    <form method="POST">
-      <h3 align="center">CONNEXION A SPOTIFREE</h3>
-      <div class="form-group">
-        <label for="email">Adresse email</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          placeholder="Enter email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
-          placeholder="Enter password"
-        />
-      </div>
-      <br />
-      <button type="submit" class="btn btn-primary">Connexion</button>
-    </form>
-    {% endblock %}
+  %}
+  <form method="POST"><br><br>
+    <center>
+    <h3 align="center">Se connecter</h3><br>
+    <fieldset style="background-color:rgba(0, 0, 0, 0.301);">
+    <div class="form-group"><br>
+      <label for="email">Addresse e-mail</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Enter password"
+      />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Valider</button><br>
+    <br>
+  </fieldset>
+  </center>
+  </form>
+  {% endblock %}
+  
