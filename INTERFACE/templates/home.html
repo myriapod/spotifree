@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<br><br>
+<br>
+<div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+<h1 align="center" style="color:azure">Bienvenue USER</h1> 
+</div><br><br>
+<center>
+<h3><label for="music-search">Chercher une musique : </label></h3>
+<input type="search" id="music-search" name="q" style="width: 400px; height: 40px">
+
+<button type="submit" class="btn btn-primary">Go!</button><br><br><br><br>
+</center>
+
+<div class="row">
+  <div class="leftcolumn">
+    <div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+      <h1 align="center" style="color:white">Playlist</h1><br>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul><br><br>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Add Note</button>
+  </div>
+</form>
+    </div>
+  </div>
+
+  <div class="rightcolumn">
+    <div class="card">
+    <h2 align="center">Amis</h2>
+    <p>Afficher la liste d'amis</p>
+    <button type="submit" class="btn btn-primary">Add friend</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
