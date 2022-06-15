@@ -1,5 +1,6 @@
 from classes import BDD, Spotify_Artist, Spotify_Albums, Spotify_Tracks
 import json
+import os
 
 
 LINE_UP = '\033[1A'
@@ -53,7 +54,7 @@ def bdd():
     
 
 ###################  MAIN  #########################
-
+print("echo WORKING")
 # database ok, tout est dans le BDD/spotify_bdd.json
 spotify_donnees()
 

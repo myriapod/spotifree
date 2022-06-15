@@ -184,5 +184,4 @@ class Spotify_Tracks():
                             
                 if add:
                     data.append(track_to_add)
-                    print(track_to_add)
             
