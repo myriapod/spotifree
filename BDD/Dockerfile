@@ -15,10 +15,10 @@ EXPOSE 3306
 LABEL version="1.0"
 LABEL description="MariaDB Server"
 
-CMD ["mysqld"]
+# RUN mysqld
 
-CMD ["mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql"]
-CMD ["systemctl start mariadb.service"]
+RUN mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+RUN systemctl start mariadb.service
 
 RUN pacman -S python --noconfirm
 RUN pacman -S python-pip --noconfirm

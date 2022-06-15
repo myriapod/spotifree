@@ -31,7 +31,7 @@ def spotify_donnees():
             tracks = Spotify_Tracks(album.album_ids[i], album.album_names[i], spotify_data, index)
             
     # on rajoute un file json pour garder en mémoire les données sans devoir extraire à nouveau d'internet (ça prend du temps)
-    with open('BDD/spotify_bdd.json', 'w') as output_file:
+    with open('spotify_bdd.json', 'w') as output_file:
         json.dump(spotify_data, output_file)
 
     print(LINE_UP, end=LINE_CLEAR)
@@ -42,7 +42,7 @@ def spotify_donnees():
 ###################  BDD  #########################
 
 def bdd():
-    with open('BDD/spotify_bdd.json', 'r') as input_file:
+    with open('spotify_bdd.json', 'r') as input_file:
         spotify_data = json.load(input_file)
     # print(spotify_data)
 
@@ -54,7 +54,6 @@ def bdd():
     
 
 ###################  MAIN  #########################
-print("echo WORKING")
 # database ok, tout est dans le BDD/spotify_bdd.json
 spotify_donnees()
 
