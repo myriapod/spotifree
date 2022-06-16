@@ -34,3 +34,19 @@ lancer:
 ```
 
 Dans le <code>main_bdd.py</code> on peut commenter <code>spotify_donnees()</code> pour ne pas relancer le chargement de la BDD à partir de spotify. (Les données sont enregistrées dans un fichier .json intermédiaire).
+
+
+<h3>docker file flask</h3>
+
+```
+sudo docker build -t flask-spotifree -f ./flask.dockerfile .
+sudo docker run -p 5000:5000 flask-spotifree
+```
+
+aller sur <a href="www.spotifree.fr:5000">www.spotifree.fr:5000</a>
+
+pour accéder à www.spotifree.fr directement, il faut modifier dans le <code>INTERFACE/main.py</code> le port 80 et lancer
+
+```
+sudo docker run -p 80:5000 flask-spotifree
+```
