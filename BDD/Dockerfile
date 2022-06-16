@@ -17,5 +17,5 @@ RUN pip3 install -r requirements.txt
 COPY . ./
 RUN ls
 
-CMD ["/main_bdd.py"]
+CMD ["main_bdd.py"]
 ENTRYPOINT ["python3"]
