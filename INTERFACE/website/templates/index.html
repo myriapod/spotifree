@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<div class="fixed-bg">
+<head>
+<style>
+   
+* {
+  margin: 0;
+  padding:0;
+}
+
+.fixed-bg {
+  background-image: url("https://img.wallpapersafari.com/desktop/1920/1080/98/14/Oxsnhd.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.collapsible {
+  background-color: rgba(85, 85, 85, 0.72);
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 50%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: rgba(54, 54, 54, 0.72);
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  color: white;
+  padding: 0 18px;
+  max-height: 0;
+  width: 50%;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+fieldset {
+  border: 0;
+}
+
+</style>
+</head>
+<body>
+<br><br><br>
+<center><h1>SPOTIFREE</h1><br><br>
+
+<h3><label for="music-search">Chercher une musique : </label></h3>
+<input type="search" id="music-search" name="q" style="width: 400px; height: 30px">
+
+<button>GO!</button><br><br><br><br>
+
+<h3>Déjà inscrit ?</h3><br>
+<button class="collapsible">Se connecter</button>
+<div class="content">
+    <form>  
+        <fieldset style="background-color:rgba(0, 0, 0, 0.301);">  
+        <label for="name">Nom d'utilisateur</label><br>  
+    <input type="text" id="name" name="name"><br><br>  
+    <label for="pass">Mot de passe</label><br>  
+    <input type="Password" id="pass" name="pass"><br><br>  
+    <form action="C:/Users/sidth/Documents/Formation CAPGEMINI/logged.html">
+        <input type="submit" value="Valider"/>
+    </form> 
+    </fieldset>  
+    </form>
+</div><br><br>
+
+<h3>Pas encore de compte ?</h3><br>
+<button class="collapsible">S'enregistrer</button>
+<div class="content">
+       <form>
+        <fieldset style="background-color:rgba(0, 0, 0, 0.301);">  
+           <label> Nom d'utilisateur</label> <br>
+           <input type = "text" name = "name"> <br><br>
+            <label> Mot de passe </label> <br>
+            <input type = "password" name = "pass"> <br><br>
+            <label> Confirmez mot de passe </label> <br>
+            <input type = "password" name = "pass"> <br><br>
+            <button>Valider</button>
+        </fieldset>
+    </form>
+</div><br><br>
+
+<h3>Qu'est ce que Spotifree ?</h3><br>
+<button class="collapsible">En savoir plus</button>
+<div class="content">
+  <fieldset style="background-color:rgba(0, 0, 0, 0.301);">  
+    <p> Spotifree est un project étudiant ultra casse tête, qui vise à créer un ersatz de Spotify...</p>
+  </fieldset>
+</div></center>
+
+
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
+</script>
+
+</body>
+<br><br><br><br><br><br><br><br>
+</div>
+</html>

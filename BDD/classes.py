@@ -5,18 +5,20 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
 from requests.exceptions import ReadTimeout # pour gérer les erreurs de spopipy
+from deepdiff import DeepDiff # vérifier qu'on ne rajoute pas plusieurs fois les mêmes chansons dans la bdd
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
 
 ### Partie mariadb ###
 class BDD():
-    def __init__(self, spotify_data):
+    def __init__(self, spotify_data=None):
         self.conn = None
         self.cur = None
         self.spotify_data = spotify_data
     
     def deconnexion(self):
+        self.conn.commit()
         self.conn.close()
         
     def connection_root(self):
@@ -40,10 +42,11 @@ class BDD():
     def creation_bdd(self):
         self.connection_root()
         
+        # just for the tests
+        self.cur.execute("DROP DATABASE spotifree")
         self.cur.execute("CREATE DATABASE IF NOT EXISTS spotifree")
         print(" > Created the database spotifree.")
         
-        self.cur.execute("DROP TABLE spotifree.spotify")
         self.cur.execute('''CREATE TABLE IF NOT EXISTS spotifree.spotify (
                         track_id INT UNIQUE PRIMARY KEY,
                         artist_name TEXT,
@@ -65,9 +68,10 @@ class BDD():
         print(" > Done filling the spotify table.")
         
         self.cur.execute('''CREATE TABLE IF NOT EXISTS spotifree.users (
-                        user_id INT PRIMARY KEY,
+                        user_id INT NOT NULL AUTO_INCREMENT,
                         user_name TEXT,
-                        user_password TEXT
+                        user_password TEXT,
+                        PRIMARY KEY (user_id)
                         )''')
         print(" > Created the users table.")
         
@@ -75,42 +79,20 @@ class BDD():
         self.cur.execute('''CREATE TABLE IF NOT EXISTS spotifree.playlists (
                         owner_id INT,
                         playlist_name TEXT,
-                        list_songs TEXT,
-                        FOREIGN KEY (owner_id) REFERENCES users(user_id)
+                        list_songs INT
                         )''')
         print(" > Created the playlists table.")
         
-        # liste d'id d'amis séparés par une virgule
+        # plusieurs entrées pour user_id, à chaque fois qu'il a un nouvel ami
         self.cur.execute('''CREATE TABLE IF NOT EXISTS spotifree.amis (
                         user_id INT,
-                        amis_id TEXT,
-                        FOREIGN KEY (user_id) REFERENCES users(user_id)
+                        amis_id INT
                         )''')
         print(" > Created the amis table.")
         
         self.deconnexion()
         
-    def creation_user(self, user, password):
-        self.connection_root()
-        self.cur.execute(f"CREATE USER IF NOT EXISTS '{user}' IDENTIFIED BY '{password}'")
-        
-        self.cur.execute("FLUSH PRIVILEGES")
-        
-        # self.cur.execute(f'select user, host from mysql.user')
-        # results = self.cur.fetchall()
-        # for r in results:
-        #    print(r)
-        
-        # permissions particulières : https://mariadb.com/kb/en/grant/#table-privileges
-        # les users ne son't pas dans l'hote localhost mais dans l'hote %
-        self.cur.execute(f"GRANT USAGE ON spotifree.* TO '{user}'@'%'")
-        self.cur.execute(f"GRANT SELECT ON spotifree.spotify TO '{user}'@'%'")
-        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.amis TO '{user}'@'%'")
-        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON spotifree.playlists TO '{user}'@'%'")
-        # les utilisateurs n'ont pas accès à la base de donnée des users
-        
-        self.cur.execute("FLUSH PRIVILEGES")
-        self.deconnexion()
+
         
 
 ### Partie Spotify ###
@@ -130,13 +112,14 @@ def connection_spotify():
 
 class Spotify_Artist():
     def __init__(self, artist):
+        self.artist = artist
         sp = connection_spotify()
         try:
-            self.results = sp.search(q=artist, limit=20, type="artist") # on cherche les 20 premiers résultats qui correspondent au nom de l'artiste
+            self.results = sp.search(q=f"artist:{self.artist}", limit=5, type="artist")
         except ReadTimeout:
             print("Spotify timed out... trying again...")
-            self.results = sp.search(q=artist, limit=20, type="artist")
-            
+            self.results = sp.search(q=f"artist:{self.artist}", limit=5, type="artist")
+
         items = self.results["artists"]["items"]
         if len(items) != 0:
             d = items[0]
@@ -179,12 +162,26 @@ class Spotify_Tracks():
         for track in self.results['items']:
             index.append(index[-1]+1) # un peu bizzare mais ça permet de donner un track_id unique
             # on ajoute directement à la liste de dictionnaire des chansons chaque chanson de l'album
-            data.append({'track_id' : index[-1],
+            track_to_add = {'track_id' : index[-1],
                           # gérer l'erreur d'un ' en trop possible dans sql
                           'artist_name' : track['artists'][0]['name'].replace("\'", "\\'"), 
                           'album_name' : album_name.replace("\'", "\\'"),
                           'track_name' :  track['name'].replace("\'", "\\'"),
                           'track_number' : track['track_number'],
-                          'spotify_link' : track['artists'][0]['external_urls']['spotify']
-                        })
+                          'spotify_link' : track['external_urls']['spotify']
+                        }
+            # on compare les dictionnaires déjà présents dans data avec la nouvelle chanson à rajouter pour éviter les doublons
+            if len(data)==0:
+                data.append(track_to_add)
+            else:
+                add = True
+                for track in data:
+                    diff = DeepDiff(track, track_to_add) # compare deux dictionnaires entre eux et indique quelles valeurs sont différentes
+                    if len(diff)>0:
+                        list_keys = list(diff['values_changed'].keys())
+                        if len(list_keys)==1: # s'il y a plus d'une valeur différente (autre que l'id), ça veut dire que ce n'est pas la même chanson
+                            add = False 
+                            
+                if add:
+                    data.append(track_to_add)
             

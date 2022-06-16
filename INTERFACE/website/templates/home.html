@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+  %}
+  <br><br>
+  <br>
+  <div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+  <h1 align="center" style="color:azure">Bienvenue  {% if user %} {{user.first_name}} {% endif %}</h1> 
+  </div><br><br>
+  <center>
+  <h3><label for="music-search">Chercher une musique : </label></h3>
+  
+  
+  <form method="get">
+    <input type="search" id="music-search" name="recherche" style="width: 400px; height: 40px">
+    <button type="submit" class="btn btn-primary">Go!</button><br><br><br><br>
+  </form>
+  
+  {% if resultats %}
+  <div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+    <table>
+      <tr>
+        <th>Artiste</th>
+        <th>Album</th>
+        <th>Chanson</th>
+        <th>Playlist</th>
+        <th>Télécharger</th>
+      </tr>
+      {% for resultat in resultats %}
+      <tr>
+        <th>{{resultat[1]}}</th>
+        <th>{{resultat[2]}}</th>
+        <th>{{resultat[3]}}</th>
+        <th>{{resultat[4]}}</th>
+        <th>
+          <form method="post">
+          <button type="submit" name="submit_button" value={{resultat[5]}} class="btn btn-primary" onclick="alert('Téléchargement lancé de {{resultat[3]}}!')">Télécharger</button>
+          </form>
+        </th>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  {% endif %}
+  
+
+  </center>
+  
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+        <h1 align="center" style="color:white">Playlist</h1><br>
+  <ul class="list-group list-group-flush" id="notes">
+    {% for note in user.notes %}
+    <li class="list-group-item">
+      {{ note.data }}
+      <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul><br><br>
+  <form method="POST">
+    <textarea name="note" id="note" class="form-control"></textarea>
+    <br />
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Add Note</button>
+    </div>
+  </form>
+      </div>
+    </div>
+  
+
+
+
+    <div class="rightcolumn">
+      <div class="card">
+      <h2 align="center">Amis</h2>
+
+      {% if friends!=0 %}
+        <p>{{friends}}</p>
+      {% else %}
+        <p>Aucun amis trouvés</p>
+      {% endif %}
+      
+      <form method="GET">
+        <input type="search" id="friend-search" name="friend-search" placeholder="Trouver un ami">
+        <button type="submit" id="friend-add" name="friend-add" class="btn btn-primary">Add friend</button>
+      </form>
+
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  
+  
