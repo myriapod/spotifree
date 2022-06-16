@@ -55,6 +55,7 @@ def bdd():
 
 ###################  MAIN  #########################
 # database ok, tout est dans le BDD/spotify_bdd.json
+print("hello world")
 spotify_donnees()
 
 # si le fichier BDD/spotify_bdd.json existe déjà, on peut juste lancer la fonction bdd pour créer la bdd sql

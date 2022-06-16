@@ -2,6 +2,7 @@ FROM mariadb:latest
 
 RUN apt-get update \
     && apt-get -yy install libmariadb-dev \
+    && apt-get -y install python3 \
     && apt-get -y install python3-pip
 
 RUN mkdir -p /opt/spotifree/BDD
@@ -16,5 +17,5 @@ RUN pip3 install -r requirements.txt
 COPY . ./
 RUN ls
 
-# marche pas, y a pas mariadb de lancé
-CMD ["python3", "main_bdd.py"]
+CMD ["/main_bdd.py"]
+ENTRYPOINT ["python3"]
