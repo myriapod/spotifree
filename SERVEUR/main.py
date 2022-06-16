@@ -12,6 +12,10 @@ def search(bdd, query):
     print("Searching query")
     return bdd.search(query)
 
+def select_song(results):
+    selection = int(input("Selection de la chanson (numéro du résultat): "))
+    print(f'Chanson choisie: {results[selection-1][0]} - {results[selection-1][1]} - {results[selection-1][2]} - {results[selection-1][3]}')
+
 def menu(bdd):
     print('\n\n------------MENU---------')
     print('1. Search\n2. Playlists\n3. Friends')
@@ -39,8 +43,7 @@ def menu(bdd):
             print('Aucun résultat')
             return
             
-        selection = int(input("Selection de la chanson (numéro du résultat): "))
-        print(f'Chanson choisie: {results[selection-1][0]} - {results[selection-1][1]} - {results[selection-1][2]} - {results[selection-1][3]}')
+        selection_song(results)
         print("Lancement du téléchargement...")
         try:
             os.system(f"spotdl {results[selection-1][5]}")
@@ -66,7 +69,6 @@ def menu(bdd):
         if choice in ["yes", "Yes", "oui", "Oui", "o", "y"]:
             friend_name = input("New friend name: ")
             friend_result = bdd.find_friend(friend_name)
-            print(friend_result)
             if friend_result:
                 friend_id = friend_result[0][0]
                 bdd.add_friends(friend_id)

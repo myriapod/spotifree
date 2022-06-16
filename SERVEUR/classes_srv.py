@@ -143,7 +143,7 @@ class serveur_BDD():
             print("Aucune playlist.")
         
     def select_songs(self):
-        query = input("find a song: ")
+        query = input("Find a song: ")
         results = self.search(query)
         print(results)
         # trouver un moyen de sélectionner une chanson > ça l'ajoute dans une liste
