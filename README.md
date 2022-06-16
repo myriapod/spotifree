@@ -12,7 +12,7 @@ pip install -r requirements.txt
 python spotifree.py
 ```
 
-aller sur <a href='http://127.0.0.1:5000/'>spotifree.fr</a>
+aller sur <a href='http://127.0.0.1:5000/'>http://127.0.0.1:5000</a>
 
 - il est possible qu'il soit nécessaire de changer les identifiants root mariadb dans <code>BDD/classes.py</code> et <code>SERVEUR/classes_srv.py</code>
 
