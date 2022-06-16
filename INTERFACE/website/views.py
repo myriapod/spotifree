@@ -7,23 +7,39 @@ import json
 import sys
 sys.path.append("..")
 from spotifree.SERVEUR.classes_srv import serveur_BDD
+import os
 
 views = Blueprint('views', __name__)
 
-password = db.session.add(new_user)
-BDD = serveur_BDD(current_user, "yy")
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    
+    stmt = db.select(User).where(User.first_name == current_user.first_name)
+    result = db.session.execute(stmt)
+    for user_obj in result.scalars():
+        password = user_obj.password
+    
+    BDD = serveur_BDD(current_user.first_name, password)
+    BDD.connection_user()
 
     # chercher les musiques
     if request.method == 'GET':
-        test2 = request.args.get('q')
+        recherche = request.args.get('q')
     else:
-        test2 = request.form.get('postTest')
+        recherche = request.form.get('postTest')
+        
+    resultats = BDD.search(recherche)
     
-    return render_template("home.html", user=current_user,test=test2)
+    if request.method == 'POST':
+        download_link = request.form['submit_button']
+        try:
+            os.system(f"spotdl {download_link}")
+        except OSError as err:
+            print()
+    
+    return render_template("home.html", user=current_user,recherche=recherche, resultats=resultats)
 
 
 # @views.route('/delete-note', methods=['POST'])

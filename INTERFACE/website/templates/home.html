@@ -14,6 +14,32 @@
     <button type="submit" class="btn btn-primary">Go!</button><br><br><br><br>
   </form>
   
+  {% if resultats %}
+  <div class="card" style="background-color:rgba(0, 0, 0, 0.301);">
+    <table>
+      <tr>
+        <th>Artiste</th>
+        <th>Album</th>
+        <th>Chanson</th>
+        <th>Playlist</th>
+        <th>Télécharger</th>
+      </tr>
+      {% for resultat in resultats %}
+      <tr>
+        <th>{{resultat[1]}}</th>
+        <th>{{resultat[2]}}</th>
+        <th>{{resultat[3]}}</th>
+        <th>{{resultat[4]}}</th>
+        <th>
+          <form method="post">
+          <button type="submit" name="submit_button" value={{resultat[5]}} class="btn btn-primary" onclick="alert('Téléchargement lancé de {{resultat[3]}}!')">Télécharger</button>
+          </form>
+        </th>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  {% endif %}
   
 
   </center>
