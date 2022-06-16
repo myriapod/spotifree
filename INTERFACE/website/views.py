@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Note
 from . import db
 import json
 
@@ -12,9 +11,9 @@ views = Blueprint('views', __name__)
 def home():
 
     if request.method == 'GET':
-        test3 = request.args.get('q')
+        test2 = request.args.get('q')
         print('recherche')
-        print(test3)
+        print(test2)
     else:
         test2 = request.form.get('postTest')
         print('recherche')
