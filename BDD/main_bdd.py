@@ -1,4 +1,4 @@
-from classes import BDD, Spotify_Artist, Spotify_Albums, Spotify_Tracks
+from BDD.classes import BDD, Spotify_Artist, Spotify_Albums, Spotify_Tracks
 import json
 import os
 
@@ -12,7 +12,7 @@ LINE_CLEAR = '\x1b[2K'
 
 def spotify_donnees():
     # https://www.songkick.com/leaderboards/popular_artists 
-    list_famous_singers = ['hoshi', 'seventeen', 'ateez', 'monsta x', 'loona', 'wjsn', 'gwsn', 'woodz', 'pentagon']
+    list_famous_singers = ['rihannah', 'coldplay', 'eminem', 'seventeen', 'monsta x', 'loona']
 
 
     # alternative: passer par un main différent pour créer la base de donnée spotify, mettre la spotify_data dans un .json
@@ -31,7 +31,7 @@ def spotify_donnees():
             tracks = Spotify_Tracks(album.album_ids[i], album.album_names[i], spotify_data, index)
             
     # on rajoute un file json pour garder en mémoire les données sans devoir extraire à nouveau d'internet (ça prend du temps)
-    with open('spotify_bdd.json', 'w') as output_file:
+    with open('BDD/spotify_bdd.json', 'w') as output_file:
         json.dump(spotify_data, output_file)
 
     print(LINE_UP, end=LINE_CLEAR)
@@ -42,7 +42,7 @@ def spotify_donnees():
 ###################  BDD  #########################
 
 def bdd():
-    with open('spotify_bdd.json', 'r') as input_file:
+    with open('BDD/spotify_bdd.json', 'r') as input_file:
         spotify_data = json.load(input_file)
     # print(spotify_data)
 
@@ -55,7 +55,7 @@ def bdd():
 
 ###################  MAIN  #########################
 # database ok, tout est dans le BDD/spotify_bdd.json
-spotify_donnees()
+# spotify_donnees()
 
 # si le fichier BDD/spotify_bdd.json existe déjà, on peut juste lancer la fonction bdd pour créer la bdd sql
 bdd()

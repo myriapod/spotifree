@@ -79,7 +79,7 @@ class BDD():
         self.cur.execute('''CREATE TABLE IF NOT EXISTS spotifree.playlists (
                         owner_id INT,
                         playlist_name TEXT,
-                        song_id INT
+                        list_songs INT
                         )''')
         print(" > Created the playlists table.")
         

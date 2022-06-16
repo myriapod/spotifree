@@ -1,0 +1,8 @@
+spotify-downloader
+mariadb
+spotipy
+deepdiff
+requests
+flask
+Flask-SQLAlchemy
+flask-login

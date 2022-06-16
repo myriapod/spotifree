@@ -10,7 +10,7 @@
   
   
   <form method="get">
-    <input type="search" id="music-search" name="q" style="width: 400px; height: 40px">
+    <input type="search" id="music-search" name="recherche" style="width: 400px; height: 40px">
     <button type="submit" class="btn btn-primary">Go!</button><br><br><br><br>
   </form>
   
@@ -68,11 +68,24 @@
       </div>
     </div>
   
+
+
+
     <div class="rightcolumn">
       <div class="card">
       <h2 align="center">Amis</h2>
-      <p>Afficher la liste d'amis</p>
-      <button type="submit" class="btn btn-primary">Add friend</button>
+
+      {% if friends!=0 %}
+        <p>{{friends}}</p>
+      {% else %}
+        <p>Aucun amis trouvés</p>
+      {% endif %}
+      
+      <form method="GET">
+        <input type="search" id="friend-search" name="friend-search" placeholder="Trouver un ami">
+        <button type="submit" id="friend-add" name="friend-add" class="btn btn-primary">Add friend</button>
+      </form>
+
       </div>
     </div>
   </div>

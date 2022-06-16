@@ -139,22 +139,16 @@ class serveur_BDD():
     # playlists
     def add_playlist(self, playlist_name, list_songs):
         print('Adding a playlist')
-        self.cur.execute(f"INSERT INTO playlists (owner_id, playlist_name, list_songs) VALUES ({self.user_id}, '{playlist_name}', '{song_id}')")
+        self.cur.execute(f"INSERT INTO playlists (owner_id, playlist_name, list_songs) VALUES ({self.user_id}, '{playlist_name}', '{list_songs}')")
         self.conn.commit()
         self.get_user_data()
+            
     
     def show_playlists(self):
         if len(self.user_playlists)>0:
             return self.user_playlists
         else:
             print("Aucune playlist.")
-        
-    def select_songs(self):
-        query = input("Find a song: ")
-        results = self.search(query)
-        print(results)
-        # trouver un moyen de sélectionner une chanson > ça l'ajoute dans une liste
-        songs_to_add = [] # trouver l'id des chansons à rajouter
         
         
         
@@ -171,7 +165,7 @@ class serveur_BDD():
     def add_friends(self, amis_ids):
         print('Adding a friend') 
         # need to add to the previous list of friends and check that it's not already there
-        if len(self.user_friends)>0 and self.user_friends[0][0]:
+        if self.user_friends and len(self.user_friends)>0:
             friend_list = self.user_friends
             for friend in friend_list:
                 if amis_ids == int(friend[1]):
@@ -180,6 +174,7 @@ class serveur_BDD():
             friend_list.append(amis_ids)
             self.cur.execute(f"INSERT INTO amis (user_id, amis_id) VALUES ({self.user_id}, '{friend_list[-1]}')")
         else: # si c'est le premier ami
+            print(self.user_id, amis_ids)
             self.cur.execute(f"INSERT INTO amis (user_id, amis_id) VALUES ({self.user_id}, '{amis_ids}')")
         
         self.conn.commit()

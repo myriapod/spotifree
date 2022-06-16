@@ -5,7 +5,7 @@ from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 import sys
 sys.path.append("..")
-from spotifree.SERVEUR.classes_srv import serveur_BDD
+from SERVEUR.classes_srv import serveur_BDD
 
 
 auth = Blueprint('auth', __name__)
