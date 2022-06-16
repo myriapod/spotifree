@@ -1,23 +1,28 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
+from .models import User
+from sqlalchemy import select
 from . import db
 import json
+import sys
+sys.path.append("..")
+from spotifree.SERVEUR.classes_srv import serveur_BDD
 
 views = Blueprint('views', __name__)
 
+password = db.session.add(new_user)
+BDD = serveur_BDD(current_user, "yy")
 
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
 
+    # chercher les musiques
     if request.method == 'GET':
         test2 = request.args.get('q')
-        print('recherche')
-        print(test2)
     else:
         test2 = request.form.get('postTest')
-        print('recherche')
-        print(test2)
+    
     return render_template("home.html", user=current_user,test=test2)
 
 

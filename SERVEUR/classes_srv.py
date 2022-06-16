@@ -44,33 +44,40 @@ class serveur_BDD():
         self.user_data = self.cur.fetchall()
         
         if len(self.user_data) == 0 : 
-            print("User doesn't exist.")
-            signup = input("Sign up? (Y/N)")
-            if signup in ["yes", "Yes", "oui", "Oui", "o", "y"]:
-            
-                self.cur.execute(f"CREATE USER IF NOT EXISTS '{self.user}'@'localhost' IDENTIFIED BY '{self.password}'")
-                
-                self.cur.execute("FLUSH PRIVILEGES")
-                
-                # permissions particulières : https://mariadb.com/kb/en/grant/#table-privileges
-                # les users ne son't pas dans l'hote localhost mais dans l'hote %
-                self.cur.execute(f"GRANT USAGE ON *.* TO '{self.user}'@'localhost'")
-                self.cur.execute(f"GRANT SELECT ON spotify TO '{self.user}'@'localhost'")
-                self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON amis TO '{self.user}'@'localhost'")
-                self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON playlists TO '{self.user}'@'localhost'")
-                # les utilisateurs n'ont pas accès à la base de donnée des users
-                
-                self.cur.execute("FLUSH PRIVILEGES")
-                
-                # marche pas très bien? ça rentre pas en vrai dans la database mais jsp pas pourquoi
-                self.cur.execute(f"INSERT INTO users (user_name, user_password) VALUES ('{self.user}', '{self.password}')")
-                self.cur.execute(f'''SELECT * FROM users WHERE user_name LIKE "{self.user}" AND user_password LIKE "{self.password}" ''')
-                self.user_data = self.cur.fetchall()
-            else:
-                return False
-            
+            self.deconnexion()
+            return False
         else:
-            print("Logged in!")
+            self.deconnexion()
+            return True
+            
+        
+    
+    def log_in(self):
+        self.user_id = self.user_data[0][0]
+        
+        
+        
+    def sign_up(self):
+        self.connection_root()
+        
+        self.cur.execute(f"CREATE USER IF NOT EXISTS '{self.user}'@'localhost' IDENTIFIED BY '{self.password}'")
+        
+        self.cur.execute("FLUSH PRIVILEGES")
+        
+        # permissions particulières : https://mariadb.com/kb/en/grant/#table-privileges
+        # les users ne son't pas dans l'hote localhost mais dans l'hote %
+        self.cur.execute(f"GRANT USAGE ON *.* TO '{self.user}'@'localhost'")
+        self.cur.execute(f"GRANT SELECT ON spotify TO '{self.user}'@'localhost'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON amis TO '{self.user}'@'localhost'")
+        self.cur.execute(f"GRANT SELECT, DELETE, INSERT ON playlists TO '{self.user}'@'localhost'")
+        # les utilisateurs n'ont pas accès à la base de donnée des users
+        
+        self.cur.execute("FLUSH PRIVILEGES")
+        
+        # marche pas très bien? ça rentre pas en vrai dans la database mais jsp pas pourquoi
+        self.cur.execute(f"INSERT INTO users (user_name, user_password) VALUES ('{self.user}', '{self.password}')")
+        self.cur.execute(f'''SELECT * FROM users WHERE user_name LIKE "{self.user}" AND user_password LIKE "{self.password}" ''')
+        self.user_data = self.cur.fetchall()
         
         self.conn.commit()
         self.deconnexion()
