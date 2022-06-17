@@ -1,7 +1,6 @@
 # spotifree
 équivalent à spotify
 
-testestest
 
 groupe 3  - Jenny  - Yasmine - Maureen - Solene - Sidney
 
@@ -37,6 +36,13 @@ lancer:
 
 Dans le <code>main_bdd.py</code> on peut commenter <code>spotify_donnees()</code> pour ne pas relancer le chargement de la BDD à partir de spotify. (Les données sont enregistrées dans un fichier .json intermédiaire).
 
+<h2>Utilisation de Flask</h2>
+
+Flask est un framework open-source de développement web en Python, classé comme "micro framework" car très léger. Malgré l'absence des fonctionnalité de bases nécessaires à l'exercice (système d'authentification, abstraction de base de données ou validation de formulaires), il permet cependant l'installation d'extensions et intègre un moteur de gestion de templates pour du rendu HTML, qui ont rendu le développement de cette applicattion possile.
+
+La très belle architecture du site, conçue par le M2I-Formation-Groupe3™, dont le génie collectif ne peut être égalé que par leur folie individuelle, provient de multitudes d'exemples glanés sur internet après des fouilles intensives sur des sites peu connus, voir obscurs, tels que W3school, Github, Stack Overflow, Youtube, et de nombreuses autres provinces du web, dont l'énumération serait inutile et fastidueuse...
+
+(Même si en vrai un très grosse partie fût peu scrupuleusement repompée sur le github suivant : https://github.com/techwithtim/Flask-Web-App-Tutorial)
 
 <h3>docker file flask</h3>
 
