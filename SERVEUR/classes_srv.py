@@ -191,7 +191,7 @@ class serveur_BDD():
         # s'il y a déjà des amis qui existent, 
         if self.user_friends and len(self.user_friends)>0:
             friend_list = self.user_friends
-            for friend in friend_list: # si l'ami des déjà présent dans la liste des amis
+            for friend in friend_list: # si l'ami est déjà présent dans la liste des amis
                 if amis_ids == int(friend[1]):
                     print("Already befriended.")
                     return
@@ -203,7 +203,7 @@ class serveur_BDD():
             self.cur.execute(f"INSERT INTO amis (user_id, amis_id) VALUES ({self.user_id}, '{amis_ids}')")
         
         self.conn.commit()
-        self.get_user_data()
+        self.get_user_data() # on reload les données de l'utilisateur à partir de la bdd
         
         
     def show_friends(self):
