@@ -23,7 +23,7 @@ aller sur <a href='http://127.0.0.1:5000/'>http://127.0.0.1:5000</a>
 python SERVEUR/main.py
 ```
 
-- pour rajouter des artistes dans la BDD spotify: modifier la liste <code>liste_famous_singers</code> de <code>BDD/main_bdd.py</code>
+- pour rajouter des artistes dans la BDD spotify: modifier la liste <code>list_artists</code> de <code>BDD/main_bdd.py</code>
 
 <h2>Encore en phase de test</h2>
 <h3>docker file bdd</h3>
